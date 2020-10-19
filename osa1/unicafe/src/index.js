@@ -29,10 +29,10 @@ const Statistics = (props) => {
             <td><StatisticLine text={"Neutral: "} value={props.feedback.neutral} /></td>
           </tr>
           <tr>
-            <td><StatisticLine text={"All: "} value={props.feedback.all} /></td>
+            <td><StatisticLine text={"Bad: "} value={props.feedback.bad} /></td>
           </tr>
           <tr>
-            <td><StatisticLine text={"Bad: "} value={props.feedback.bad} /></td>
+            <td><StatisticLine text={"All: "} value={props.feedback.all} /></td>
           </tr>
           <tr>
             <td><StatisticLine text={"Average: "} value={props.feedback.average} /></td>
