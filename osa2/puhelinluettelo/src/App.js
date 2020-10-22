@@ -1,48 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import personService from './services/persons'
 import Notification from './components/Notification'
-
-const Filter = ({ handler }) => {
-  return (
-    <form>
-      <div>filter shown with: <input onChange={handler}/></div>
-    </form>
-  )
-}
-
-const PersonForm = ({ submit, newName, handleNameChange, newNumber, handleNumberChange }) => {
-  return (
-    <form onSubmit={submit}>
-        <div>name: <input value={newName} onChange={handleNameChange} /></div>
-        <div>number: <input value={newNumber} onChange={handleNumberChange}/></div>
-        <div><button type="submit">add</button></div>
-    </form>
-  )
-}
-
-const Persons = ({ phonebook, persons, showFiltered, deleteContact }) => {
-  if (showFiltered) {
-    return( 
-      <div>
-        {phonebook.map(persons =>
-          <div key={persons.name}>
-            {persons.name} {persons.number}
-          </div>
-        )}
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        {persons.map(persons =>
-          <div key={persons.id}>
-            {persons.name} {persons.number} <button onClick={() => deleteContact(persons.name, persons.id)}>Delete</button>
-          </div>
-        )}
-      </div>
-    )
-  }
-}
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 function App() {
   const [persons, setPersons] = useState([])
@@ -52,6 +13,14 @@ function App() {
   const [showFiltered, setShowFiltered] = useState(false)
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [isError, setIsError]= useState(null)
+
+  const handleNameChange = (event) => setNewName(event.target.value)
+  const handleNumberChange = (event) => setNewNumber(event.target.value)
+  const handleNewFilterChange = (event) => {
+    const filteredPhonebook = persons.filter(person => person.name.includes(event.target.value))
+    setNewFilteredPhonebook(filteredPhonebook);
+    setShowFiltered(event.target.value)
+  }
 
   useEffect(() => {
     personService
@@ -66,10 +35,12 @@ function App() {
 
     const names = persons.map(person => person.name)
 
+    //Is there already a contact with this name?
     if (names.includes(newName)) {
       const result = window.confirm(`${newName} is already added to phonebook, replace old number with a new one?`)
 
       if (result) {
+        //Replacing old number with new one
         const personToChange = persons.find(persons => persons.name === newName)
         const updatedContact = { ...personToChange, number: newNumber}
 
@@ -85,14 +56,17 @@ function App() {
             setTimeout(() => {setNotificationMessage(null)}, 3000)
           })
           .catch(error => {
-            console.log("ERROR")
-            setNotificationMessage(`Information of ${newName} was not found`)
+            //Name removed from server -> remove it from the list
+            setPersons(persons.filter(n => n.name !== newName))
+
+            setNotificationMessage(`Information of ${newName} has already been removed from server`)
             setIsError(true)
           })
       }
-      
     } else {
+      //Creating a new contact
       const personObject = { name: newName, number: newNumber }
+
       personService
         .create(personObject)
         .then(returnedPersons => {
@@ -100,28 +74,22 @@ function App() {
           setNewName('')
           setNewNumber('')
       })
-
       setNotificationMessage(`Added ${newName}`)
       setIsError(false)
       setTimeout(() => {setNotificationMessage(null)}, 3000)
     }
   }
 
-  const handleNameChange = (event) => setNewName(event.target.value)
-  const handleNumberChange = (event) => setNewNumber(event.target.value)
-  const handleNewFilterChange = (event) => {
-    const filteredPhonebook = persons.filter(person => person.name.includes(event.target.value))
-    setNewFilteredPhonebook(filteredPhonebook);
-    setShowFiltered(event.target.value)
-  }
-
   const deleteContact = (name, id) => {
     const result = window.confirm(`Delete ${name}?`)
+
     if (result) {
       personService
         .deleteContact(id)
         .then(returnedPersons => {
           setPersons(persons.filter(person => person.id !== id))
+          setShowFiltered(false)
+          
           setNotificationMessage(`Removed ${name}`)
           setIsError(false)
           setTimeout(() => {setNotificationMessage(null)}, 3000)
