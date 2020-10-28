@@ -15,7 +15,7 @@ app.get('/api/persons', (request, response, next) => {
   Contact.find({}).then(contacts => {
     response.json(contacts)
   })
-    .catch(error => next(error))
+  .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
