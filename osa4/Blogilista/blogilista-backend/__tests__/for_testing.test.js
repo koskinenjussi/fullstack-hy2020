@@ -62,6 +62,7 @@ const listWithMultipleBlogs = [
 ]
 
 const listWithNoBlogs = []
+
 test('Dummy returns one', () => {
   const blogs = []
   const result = listHelper.dummy(blogs)

@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt')
 const helper = require('./test_helper')
 const User = require('../models/user')
 
-
 describe('When there is initially one user at db', () => {
   beforeEach(async () => {
     await User.deleteMany({})

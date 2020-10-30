@@ -4,9 +4,11 @@ const dummy = (blogs) => {
 
 const totalLikes = (blogs) => {
   let totalLikes = 0
+
   blogs.forEach(blog => {
     totalLikes += blog.likes
   })
+
   return totalLikes
 }
 
@@ -48,12 +50,13 @@ const mostBlogs = (blogs) => {
         author: blogs[i].author,
         blogs: 1
       }
+
       authors[authorIndex] = author
       authorIndex++
     } else { 
-      //Author is on the list => rise blogs amount by one
+      //Author is on the list => raise blogs amount by one
       for (let j = 0; j < authors.length; j++) {
-        if (authors[j].author == blogs[i].author) {
+        if (authors[j].author === blogs[i].author) {
           authors[j].blogs++
           break
         }
@@ -93,10 +96,11 @@ const mostLikes = (blogs) => {
         author: blogs[i].author,
         likes: blogs[i].likes
       }
+
       authors[authorIndex] = author
       authorIndex++
     } else { 
-      //Author is on the list => rise blog's likes amount
+      //Author is on the list => raise the likes amount
       for (let j = 0; j < authors.length; j++) {
         if (authors[j].author == blogs[i].author) {
           authors[j].likes += blogs[i].likes

@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+authorization: bearer 
 
 {
     "title": "Yet another test!",
-    "author": "Pasi Anssi",
+    "author": "Pasi Pasinen",
     "url": "http:/url.fi",
     "likes": 15,
-    "userId": "5f9994998585252f5c691822"
+    "userId": ""
 }

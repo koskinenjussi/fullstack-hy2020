@@ -13,7 +13,8 @@ describe('When there is an initial list of blogs', () => {
 
   test('All blogs are returned as JSON', async () => {
     const response = 
-    await api.get('/api/blogs')
+    await api
+      .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
   
@@ -27,29 +28,41 @@ describe('When there is an initial list of blogs', () => {
       expect(blog.id).toBeDefined()
     })
   })
+
+  test('Valid blog can be added', async () => {
+    const blogs = await helper.blogsInDb()
+
+    const newBlog = {
+      title: 'temp',
+      author: 'temp',
+      url: 'temp',
+      likes: 10
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+
+    const result = helper.blogsInDb()
+    expect(result.length).toBe(blogs.length + 1)
+  })
   
   test('If value of likes is unidentified, set it to 0', async () => {
-    const blogs = await helper.blogsInDb()
+    const blogWithNoLikes = {
+      title: 'temp',
+      author: 'temp',
+      url: 'temp'
+    }
   
-    const blogWithNoLikes = new Blog( 
-      {
-        title: 'temp',
-        author: 'temp',
-        url: 'temp'
-      }
-    )
-  
-    blogs.push(blogWithNoLikes)
-  
-    blogs.forEach(blog => {
-      if (blog.likes === undefined) {
-        blog.likes = 0
-      }
-    })
-  
-    blogs.forEach(blog => {
-      expect(blog.likes).toBeDefined()
-    })
+    await api
+      .post('/api/blogs')
+      .send(blogWithNoLikes)
+      .expect(200)
+
+    const result = await api.get('/api/blogs')
+    const addedBlog = result.find(blog => blog.title === blogWithNoLikes)
+    expect(addedBlog.likes).toBe(0)
   })
   
   test('Blog without title is not added', async () => {
