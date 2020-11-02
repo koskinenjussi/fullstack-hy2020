@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjVmOWE5YjI0NWU2YzFhMGIyOGYxOTk5MCIsImlhdCI6MTYwNDMyOTI1NH0.xhTD3TEs_L19E24LNqfJc4dzrvRZrBPXj543vQ4Q5tM
+
+{
+    "title": "Cool Title",
+    "author": "Mike Mikerson",
+    "url": "http:/url.fi",
+    "likes": 15,
+    "userId": "5f9a9b245e6c1a0b28f19990"
+}
