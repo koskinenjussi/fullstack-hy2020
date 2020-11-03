@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import '../index.css';
+import '../index.css'
 
 import loginService from '../services/login'
 import blogService from '../services/blogs'
@@ -10,7 +10,7 @@ import Notification from'../components/Notification'
 const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  
+
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationIsError, setNotificationIsError]= useState(false)
 
@@ -28,9 +28,9 @@ const LoginForm = ({ setUser }) => {
 
     try {
       const user = await loginService.login({ username, password })
-      
+
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-  
+
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -43,32 +43,31 @@ const LoginForm = ({ setUser }) => {
   }
 
   return (
-  <div>
-    <h1>Login to application</h1>
-    <Notification message={notificationMessage} isError={notificationIsError} />
-    <form onSubmit={handleLogin}>
-      <div>
-        Username
-        <input
-          type='text'
-          value={username}
-          name='Username'
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        Password
+    <div>
+      <h1>Login to application</h1>
+      <Notification message={notificationMessage} isError={notificationIsError} />
+      <form onSubmit={handleLogin}>
+        <div>
+          Username
+          <input
+            type='text'
+            value={username}
+            name='Username'
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          Password
           <input
             type='password'
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
-      </div>
-      <button type='submit'>Login</button>
-    </form>
-  </div>
+        </div>
+        <button type='submit'>Login</button>
+      </form>
+    </div>
   )
-
 }
 
 export default LoginForm

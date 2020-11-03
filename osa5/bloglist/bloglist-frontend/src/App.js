@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
 import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm'
+import BlogList from './components/Blogs'
 
 import blogService from './services/blogs'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
     if (loggedUserJSON) {
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <div>
       {user === null && <LoginForm setUser={setUser}/>}
-      {user !== null && <BlogForm user={user} />}
+      {user !== null && <BlogList user={user} />}
     </div>
   )
 }
