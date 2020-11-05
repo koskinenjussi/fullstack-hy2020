@@ -3,7 +3,7 @@ import React from 'react'
 const BlogForm = ({ handleCreateNewBlog, setBlogTitle, setBlogAuthor, setBlogUrl }) => {
   return (
     <div>
-      <form>
+      <form onSubmit={handleCreateNewBlog}>
         <h3>Create new blog</h3>
         Title:
         <input type='text' onChange={({ target }) => setBlogTitle(target.value)}/>
@@ -14,7 +14,7 @@ const BlogForm = ({ handleCreateNewBlog, setBlogTitle, setBlogAuthor, setBlogUrl
         Url:
         <input type='text' onChange={({ target }) => setBlogUrl(target.value)}/>
         <br/>
-        <button onClick={handleCreateNewBlog}>Create</button>
+        <button type='submit'>Create</button>
         <br />
       </form>
     </div>

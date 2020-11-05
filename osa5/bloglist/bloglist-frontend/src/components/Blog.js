@@ -5,11 +5,11 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [showBlog, setShowBlog] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
 
-  const showWhenVisible = { display: showBlog ? '' : 'none' }
+  const showDetails = { display: showBlog ? '' : 'none' }
   const showDeleteButton = { display: showDelete ? '' : 'none' }
 
   useEffect(() => {
-    if (user.username === blog.user.username) {
+    if (process.env.NODE_ENV !== 'test' && (user.username === blog.user.username)) {
       setShowDelete(true)
     }
   }, [])
@@ -40,11 +40,11 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} by {blog.author} <button onClick={handleShowBlog}>{buttonText}</button>
-      <div style={showWhenVisible}>
+      {blog.title} by {blog.author} <button onClick={handleShowBlog} className='.Button'>{buttonText}</button>
+      <div style={showDetails}>
         {blog.url}
         <br />
-        likes {blog.likes} <button onClick={handleLikeClick}>Like</button>
+        likes {blog.likes} <button className='.likeButton' onClick={handleLikeClick}>Like</button>
         <br />
         {blog.author}
         <br />
