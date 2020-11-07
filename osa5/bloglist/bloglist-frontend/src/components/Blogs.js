@@ -122,10 +122,10 @@ const Blogs = ({ user }) => {
       </div>
       <p>
         {user.name} logged in
-        <button onClick={handleLogout}>Logout</button>
+        <button id='logoutButton' onClick={handleLogout}>Logout</button>
       </p>
       <div style={hideWhenVisible}>
-        <button onClick={() => setblogFormVisible(!blogFormVisible)}>New Blog</button>
+        <button id='newBlogButton' onClick={() => setblogFormVisible(!blogFormVisible)}>New Blog</button>
       </div>
       <div style={showWhenVisible}>
         <BlogForm
